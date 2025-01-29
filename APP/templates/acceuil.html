@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="{% static 'style_form.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Rapport Journalier <div class="span">{{ user.first_name }} {{ user.last_name }}</div></h1>
+
+        <!-- Afficher un message de succès ou d'erreur -->
+        {% if message %}
+            <div class="success">{{ message }}</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <fieldset>
+                <legend>Informations Générales</legend>
+            
+                <label for="date_enregistrement">Date d'enregistrement :</label>
+                <input type="date" id="date_enregistrement" name="date_enregistrement" required>
+            
+                <label for="lieu_activite">Lieu d'activité :</label>
+                <select id="lieu_activite" name="lieu_activite" required>
+                    <option value="" disabled selected>Choisissez un lieu</option>
+                    <option value="Makelekele">Makelekele</option>
+                    <option value="Bacongo">Bacongo</option>
+                    <option value="Moungali">Moungali</option>
+                    <option value="Ouenze">Ouenze</option>
+                    <option value="Talangaï">Talangaï</option>
+                </select>
+            
+                <label for="stock_sim_activees">Stock de SIM activées :</label>
+                <input type="number" id="stock_sim_activees" name="stock_sim_activees" required>
+            
+                <label for="stock_sim_blanches">Stock de SIM blanches :</label>
+                <input type="number" id="stock_sim_blanches" name="stock_sim_blanches" required>
+            
+                <label for="sim_appro">SIM Approvisionnées :</label>
+                <input type="number" id="sim_appro" name="sim_appro" required>
+            </fieldset>            
+
+            <!-- Partie Effectif -->
+            <fieldset>
+                <legend>Effectif</legend>
+
+                <label for="effectif_total">Effectif Total Attendu :</label>
+                <input type="number" id="effectif_total" name="effectif_total" required>
+
+                <label for="effectif_present">Effectif Présent :</label>
+                <input type="number" id="effectif_present" name="effectif_present" required>
+            </fieldset>
+
+            <!-- Partie Réalisation -->
+            <fieldset>
+                <legend>Réalisation</legend>
+
+                <label for="gsm">GSM :</label>
+                <input type="number" id="gsm" name="gsm" required>
+
+                <label for="momo_app">MoMo App :</label>
+                <input type="number" id="momo_app" name="momo_app" required>
+
+                <label for="mymtn">MyMTN :</label>
+                <input type="number" id="mymtn" name="mymtn" required>
+
+                <!-- Sous-partie Devices -->
+                <fieldset>
+                    <legend>Devices</legend>
+
+                    <label for="telephone">Téléphone :</label>
+                    <input type="number" id="telephone" name="telephone" required>
+
+                    <label for="modem">Modem :</label>
+                    <input type="number" id="modem" name="modem" required>
+
+                    <label for="mifi">MiFi :</label>
+                    <input type="number" id="mifi" name="mifi" required>
+
+                    <label for="wifix">WiFix :</label>
+                    <input type="number" id="wifix" name="wifix" required>
+                </fieldset>
+            </fieldset>
+
+            <!-- Partie Commentaires -->
+            <fieldset>
+                <legend>Commentaires</legend>
+
+                <label for="difficultes">Difficultés :</label>
+                <textarea id="difficultes" name="difficultes"></textarea>
+
+                <label for="prospection">Prospection :</label>
+                <textarea id="prospection" name="prospection"></textarea>
+
+                <label for="besoin">Besoins :</label>
+                <textarea id="besoin" name="besoin"></textarea>
+            </fieldset>
+
+            <!-- Boutons -->
+            <div class="buttons">
+                <button type="submit">Soumettre</button>
+                <a href="{% url 'rapport' %}" class="btn-detail">Voir détails</a>
+                <a href="{% url 'deconnexion' %}" class="btn-deconnexion">Déconnexion</a>
+            </div>
+        </form>        
+    </div>
+</body>
+</html>
