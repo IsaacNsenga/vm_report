@@ -108,11 +108,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Emplacement où collectstatic recueillera les fichiers statiques pour le déploiement
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Chemin supplémentaire pour les fichiers statiques
 STATICFILES_DIRS = [
-    BASE_DIR / 'PROJECT/static',
+    BASE_DIR / 'APP/static',
 ]
 
 # Default primary key field type
