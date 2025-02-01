@@ -95,11 +95,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Brazzaville'
 
 USE_I18N = True
 
 USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -110,10 +111,7 @@ STATIC_URL = '/static/'
 # Emplacement où collectstatic recueillera les fichiers statiques pour le déploiement
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Chemin supplémentaire pour les fichiers statiques
-STATICFILES_DIRS = [
-    BASE_DIR / 'APP/static',
-]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

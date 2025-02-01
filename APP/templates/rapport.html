@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rapport</title>
-    <link rel="stylesheet" href="{% static 'style_form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_form.css' %}">
 </head>
 <body>
     <div class="container-full-width">
@@ -46,19 +46,23 @@
                             <th>Lieu d'Activité</th>
                             <th>Stock SIM Activées</th>
                             <th>Stock SIM Blanches</th>
-                            <th>SIM Approv</th>
+                            <th>SIM Approvisionnées</th>
                             <th>Effectif Total</th>
                             <th>Effectif Présent</th>
                             <th>GSM</th>
                             <th>MoMo App</th>
                             <th>MyMTN</th>
+                            <th>Ayoba</th>
                             <th>Téléphone</th>
                             <th>Modem</th>
                             <th>MiFi</th>
                             <th>WiFix</th>
                             <th>Difficultés</th>
+                            <th>MoMo Convertion</th>
+                            <th>Reset PIN</th>
                             <th>Prospection</th>
                             <th>Besoin</th>
+                            <th>Veille concurrentielle</th>
                             <th>Date Création</th>
                         </tr>
                     </thead>
@@ -76,13 +80,17 @@
                                 <td>{{ report.gsm }}</td>
                                 <td>{{ report.momo_app }}</td>
                                 <td>{{ report.mymtn }}</td>
+                                <td>{{ report.ayoba }}</td>
                                 <td>{{ report.telephone }}</td>
                                 <td>{{ report.modem }}</td>
                                 <td>{{ report.mifi }}</td>
                                 <td>{{ report.wifix }}</td>
                                 <td>{{ report.difficultes }}</td>
+                                <td>{{ report.momoconvertion }}</td>
+                                <td>{{ report.resetpin }}</td>
                                 <td>{{ report.prospection }}</td>
                                 <td>{{ report.besoin }}</td>
+                                <td>{{ report.concurrentielle }}</td>
                                 <td>{{ report.date_created }}</td>
                             </tr>
                         {% endfor %}

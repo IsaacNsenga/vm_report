@@ -51,6 +51,7 @@ def acceuil(request):
         gsm = request.POST.get('gsm')
         momo_app = request.POST.get('momo_app')
         mymtn = request.POST.get('mymtn')
+        ayoba = request.POST.get('ayoba')
 
         telephone = request.POST.get('telephone')
         modem = request.POST.get('modem')
@@ -58,8 +59,11 @@ def acceuil(request):
         wifix = request.POST.get('wifix')
 
         difficultes = request.POST.get('difficultes')
+        momoconvertion = request.POST.get('momoconvertion')
+        resetpin = request.POST.get('resetpin')
         prospection = request.POST.get('prospection')
         besoin = request.POST.get('besoin')
+        concurrentielle = request.POST.get('concurrentielle')
 
         # Création d'une instance du modèle avec les données récupérées
         form_data = FormDataSupervisor(
@@ -75,13 +79,17 @@ def acceuil(request):
             gsm=gsm,
             momo_app=momo_app,
             mymtn=mymtn,
+            ayoba=ayoba,
             telephone=telephone,
             modem=modem,
             mifi=mifi,
             wifix=wifix,
             difficultes=difficultes,
+            momoconvertion=momoconvertion,
+            resetpin=resetpin,
             prospection=prospection,
-            besoin=besoin
+            besoin=besoin,
+            concurrentielle=concurrentielle
         )
 
         # Enregistrement des données dans la base de données
