@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoMo Pay</title>
+    <link rel="stylesheet" href="{% static 'css/style_form.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Rapport Journalier MoMo Pay Mass Market</h1>
+
+        <!-- Affichage du message de succès ou d'erreur -->
+        {% if message %}
+            <div class="success">{{ message }}</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Section : Informations Générales -->
+            <fieldset>
+                <legend>Informations Générales</legend>
+
+                <label for="date_enregistrement">Date d'enregistrement :</label>
+                <input type="date" id="date_enregistrement" name="date_enregistrement" required>
+
+                <label for="date_creation">Date de Création :</label>
+                <input type="date" id="date_creation" name="date_creation" required>
+                
+                <label for="heure_creation">Heure de Création :</label>
+                <input type="time" id="heure_creation" name="heure_creation" required>
+            </fieldset>
+
+            <!-- Section : Détails du Marchand -->
+            <fieldset>
+                <legend>Détails du Marchand</legend>
+
+                <label for="nom_merchant">Nom du Marchand :</label>
+                <textarea id="nom_merchant" name="nom_merchant" required></textarea>
+
+                <label for="nom_etablissement">Nom de l'Établissement :</label>
+                <textarea id="nom_etablissement" name="nom_etablissement" required></textarea>
+
+                <label for="localisation_merchant">Localisation de l'Établissement :</label>
+                <textarea id="localisation_merchant" name="localisation_merchant" required></textarea>
+
+                <label for="reference_adresse">Référence de l'Établissement :</label>
+                <textarea id="reference_adresse" name="reference_adresse" required></textarea>
+
+                <label for="secteur_activite">Secteur d'Activité :</label>
+                <textarea id="secteur_activite" name="secteur_activite" required></textarea>
+            </fieldset>
+
+            <!-- Section : Informations Financières -->
+            <fieldset>
+                <legend>Informations Financières</legend>
+
+                <label for="numero_merchant">Numéro de Téléphone :</label>
+                <input type="number" id="numero_merchant" name="numero_merchant" required>
+
+                <label for="identifiant_merchant">Identifiant du Marchand :</label>
+                <textarea id="identifiant_merchant" name="identifiant_merchant" required></textarea>
+
+                <label for="montant_transaction">Montant de la Transaction :</label>
+                <input type="number" id="montant_transaction" name="montant_transaction" required>
+            </fieldset>
+            <br>
+            <!-- Boutons -->
+            <div class="buttons">
+                <a href="{% url 'home' %}" class="btn-detail">Accueil</a>
+                <button type="submit">Soumettre</button>
+                <a href="{% url 'rapport_momopay' %}" class="btn-detail">Historique</a>
+                <a href="{% url 'deconnexion' %}" class="btn-deconnexion">Déconnexion</a>
+            </div>
+        </form>        
+    </div>
+</body>
+</html>

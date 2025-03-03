@@ -1,25 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm 
-from .forms import CustomUserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import FormDataSupervisor
-
-def inscription(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)  # On ne sauvegarde pas tout de suite pour ajouter des champs
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            user.email = form.cleaned_data['email']
-            user.save()  # Sauvegarde définitive
-            return redirect('connexion')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'inscription.html', {'form': form})
-
+from .models import FormDataSupervisor, MoMoPayMassMarket
+from django.contrib.auth.models import User
 
 def connexion(request):
     if request.method == 'POST':
@@ -28,13 +12,48 @@ def connexion(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('acceuil')
+            return redirect('home')
         else:
             messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
     return render(request, 'connexion.html')
 
+def passwordreset(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        if new_password == confirm_password:
+            try:
+                user = User.objects.get(username=username)
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Mot de passe modifié avec succès.')
+            except User.DoesNotExist:
+                messages.error(request, 'Utilisateur introuvable.')
+        else:
+            messages.error(request, 'Les deux mots de passe ne correspondent pas.')
+    return render(request, 'passwordreset.html')
+
 @login_required
-def acceuil(request):
+def home(request):
+    user = request.user
+    
+    # Vérifier si l'utilisateur appartient à un groupe spécifique
+    is_gsm_user = user.groups.filter(name="GSM Utilisateur").exists()
+    is_gsm_responsable = user.groups.filter(name="GSM Responsable").exists()
+    is_momopay_user = user.groups.filter(name="MoMoPay Utilisateur").exists()
+    is_momopay_responsable = user.groups.filter(name="MoMoPay Responsable").exists()
+    is_director = user.groups.filter(name="Directeur Général").exists()
+
+    return render(request, 'index.html', {
+        'show_gsm': is_gsm_user or is_gsm_responsable or is_director,  
+        'show_momopay': is_momopay_user or is_momopay_responsable or is_director,
+    })
+
+
+@login_required
+def gsm(request):
     message = None  # Variable pour stocker le message de succès
 
     if request.method == 'POST':
@@ -98,18 +117,70 @@ def acceuil(request):
         # Message de succès
         message = "Formulaire soumis avec succès !"
 
-    return render(request, 'acceuil.html', {'message': message})
+    return render(request, 'gsm.html', {'message': message})
 
+
+@login_required
+def momopay(request):
+    message = None  # Variable pour afficher un message de confirmation
+
+    if request.method == 'POST':
+        # Récupération des données du formulaire
+        date_enregistrement = request.POST.get('date_enregistrement')
+        date_creation = request.POST.get('date_creation')
+        heure_creation = request.POST.get('heure_creation')
+        nom_merchant = request.POST.get('nom_merchant')
+        nom_etablissement = request.POST.get('nom_etablissement')
+        localisation_merchant = request.POST.get('localisation_merchant')
+        reference_adresse = request.POST.get('reference_adresse')
+        secteur_activite = request.POST.get('secteur_activite')
+        numero_merchant = request.POST.get('numero_merchant')
+        identifiant_merchant = request.POST.get('identifiant_merchant')
+        montant_transaction = request.POST.get('montant_transaction')
+
+        # Création d'une instance du modèle avec les données récupérées
+        momo_pay = MoMoPayMassMarket(
+            user=request.user,
+            full_name=f"{request.user.first_name} {request.user.last_name}",  
+            date_enregistrement=date_enregistrement,
+            date_creation=date_creation,
+            heure_creation=heure_creation,
+            nom_merchant=nom_merchant,
+            nom_etablissement=nom_etablissement,
+            localisation_merchant=localisation_merchant,
+            reference_adresse=reference_adresse,
+            secteur_activite=secteur_activite,
+            numero_merchant=numero_merchant,
+            identifiant_merchant=identifiant_merchant,
+            montant_transaction=montant_transaction
+        )
+
+        # Enregistrement des données dans la base de données
+        momo_pay.save()
+
+        # Message de succès
+        message = "Données enregistrées avec succès !"
+
+    return render(request, 'momopay.html', {'message': message})
 
 def deconnexion(request):
     logout(request)
     return redirect('connexion')
 
 @login_required
-def rapport(request):
-    if request.user.is_superuser:
-        reports = FormDataSupervisor.objects.all()
+def rapport_gsm(request):
+    if request.user.has_perm('APP.view_all_gsm_reports'):  
+        reports = FormDataSupervisor.objects.all()  # Responsable GSM et DG voient tout
     else:
-        reports = FormDataSupervisor.objects.filter(user=request.user)
+        reports = FormDataSupervisor.objects.filter(user=request.user)  # Utilisateur normal voit ses propres rapports
 
-    return render(request, 'rapport.html', {'reports': reports})
+    return render(request, 'rapport_gsm.html', {'reports': reports})
+
+@login_required
+def rapport_momopay(request):
+    if request.user.has_perm('APP.view_all_momopay_reports'):
+        momopay_reports = MoMoPayMassMarket.objects.all()  # Responsable MoMoPay et DG voient tout
+    else:
+        momopay_reports = MoMoPayMassMarket.objects.filter(user=request.user)  # Utilisateur normal voit ses propres rapports
+
+    return render(request, 'momopay_rapport.html', {'momopay_reports': momopay_reports})

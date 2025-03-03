@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Rapport Journalier <div class="span">{{ user.first_name }} {{ user.last_name }}</div></h1>
+        <h1>Rapport Journalier Acquisition GSM</h1>
 
         <!-- Afficher un message de succès ou d'erreur -->
         {% if message %}
@@ -203,11 +203,12 @@
                 <label for="concurrentielle">Veille concurrentielle :</label>
                 <textarea id="concurrentielle" name="concurrentielle"></textarea>
             </fieldset>
-
+            <br>
             <!-- Boutons -->
             <div class="buttons">
+                <a href="{% url 'home' %}" class="btn-detail">Accueil</a>
                 <button type="submit">Soumettre</button>
-                <a href="{% url 'rapport' %}" class="btn-detail">Voir détails</a>
+                <a href="{% url 'rapport_gsm' %}" class="btn-detail">Historique</a>
                 <a href="{% url 'deconnexion' %}" class="btn-deconnexion">Déconnexion</a>
             </div>
         </form>        

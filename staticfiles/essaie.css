@@ -19,7 +19,6 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 30px;
     margin: 20px;
-    text-align: center; /* Centrer le texte */
 }
 
 /* Titre */
@@ -65,34 +64,17 @@ input:focus, textarea:focus {
     border-color: #585ddc;
 }
 
-/* Messages de succès et d'erreur */
-.messages {
-    margin-bottom: 15px;
-}
-
-.success {
-    background-color: #d4edda !important; /* Vert clair */
-    color: #155724 !important; /* Vert foncé */
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    border: 1px solid #c3e6cb;
-}
-
+/* Section des messages d'erreur */
 .error {
-    background-color: #f8d7da !important; /* Rouge clair */
-    color: #721c24 !important; /* Rouge foncé */
+    background-color: #f8d7da;
+    color: #721c24;
     border-radius: 5px;
     padding: 10px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    border: 1px solid #f5c6cb;
+    margin-bottom: 20px;
+    font-size: 14px;
 }
 
-/* Section des boutons */
+/* Section du bouton de soumission */
 .buttons {
     display: flex;
     justify-content: space-between;
@@ -108,7 +90,6 @@ button, .btn-deconnexion, .btn-detail, .btn-detaille  {
     text-align: center;
     text-decoration: none; 
     display: inline-block; 
-    width: 100%; /* Boutons pleine largeur */
 }
 
 button {
@@ -121,12 +102,12 @@ button:hover {
     color: #fff; 
 }
 
-.btn-detail, .btn-detaille {
+.btn-detail {
     background-color: #000; 
     color: white; 
 }
 
-.btn-detail:hover, .btn-detaille:hover {
+.btn-detail:hover {
     background-color: #333; 
     color: #fff; 
 }
@@ -139,6 +120,16 @@ button:hover {
 .btn-deconnexion:hover {
     background-color: #7a0303; 
     color: #fff; 
+}
+
+/* Section pour le message de succès */
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
 }
 
 /* Conteneur prenant toute la largeur */
@@ -256,4 +247,32 @@ fieldset label, fieldset input, fieldset select {
     display: block;
     margin-bottom: 10px;
     width: 100%;
+}
+
+/* Centrer le contenu de la carte */
+.container_index {
+    text-align: center;
+    width: 500px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 20px;
+}
+
+/* Conteneur des boutons */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacement entre les boutons */
+    margin-top: 20px;
+}
+
+/* Boutons en pleine largeur */
+.button-container .btn-detaille {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
 }

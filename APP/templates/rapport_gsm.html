@@ -13,17 +13,21 @@
         <!-- Première ligne avec le titre -->
         <div class="section-title">
             <h2>Historique des Rapports Journaliers</h2>
+            <div class="user-info">
+                <div class="span">{{ user.first_name }} {{ user.last_name }}</div>
+            </div>
         </div>
 
         <!-- Deuxième ligne avec les infos de l'utilisateur et bouton déconnexion -->
         <div class="user-info-section">
-            <div class="user-info">
-                <div class="span">{{ user.first_name }} {{ user.last_name }}</div>
+            <!-- Bouton Déconnexion -->
+            <div class="logout-btn-container">
+                <a href="{% url 'home' %}" class="btn-detail">Accueil</a>
             </div>
 
             <!-- Bouton Déconnexion -->
             <div class="logout-btn-container">
-                <a href="{% url 'acceuil' %}" class="btn-detail">Formulaire</a>
+                <a href="{% url 'gsm' %}" class="btn-detail">Formulaire</a>
             </div>
 
             <!-- Bouton Déconnexion -->
