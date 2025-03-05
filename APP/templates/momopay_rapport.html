@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport Momopay</title>
+    <link rel="stylesheet" href="{% static 'css/style_form.css' %}">
+</head>
+<body>
+    <div class="container-full-width">
+        <!-- Première ligne avec le titre -->
+        <div class="section-title">
+            <h2>Historique des Rapports Momopay</h2>
+            <div class="user-info">
+                <div class="span">{{ user.first_name }} {{ user.last_name }}</div>
+            </div>
+        </div>
+
+        <!-- Deuxième ligne avec les infos de l'utilisateur et bouton déconnexion -->
+        <div class="user-info-section">
+            <!-- Bouton vers Formulaire -->
+            <div class="logout-btn-container">
+                <a href="{% url 'home' %}" class="btn-detail">Accueil</a>
+            </div>
+
+            <!-- Bouton vers Formulaire -->
+            <div class="logout-btn-container">
+                <a href="{% url 'momopay' %}" class="btn-detail">Formulaire</a>
+            </div>
+
+            <!-- Bouton Déconnexion -->
+            <div class="logout-btn-container">
+                <form method="POST" action="{% url 'deconnexion' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-deconnexion">Déconnexion</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Troisième ligne avec le tableau -->
+        <div class="table-section">
+            {% if momopay_reports %}
+            <table class="rapport-table">
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Nom Complet</th>
+                        <th>Date Enregistrement</th>
+                        <th>Date Création</th>
+                        <th>Heure Création</th>
+                        <th>Nom du Marchand</th>
+                        <th>Nom de l'Établissement</th>
+                        <th>Localisation du Marchand</th>
+                        <th>Référence Adresse</th>
+                        <th>Secteur d'Activité</th>
+                        <th>Numéro du Marchand</th>
+                        <th>Identifiant du Marchand</th>
+                        <th>Montant de la Transaction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for momopay_report in momopay_reports %}
+                        <tr>
+                            <td>{{ momopay_report.user.username }}</td>
+                            <td>{{ momopay_report.full_name }}</td>
+                            <td>{{ momopay_report.date_enregistrement }}</td>
+                            <td>{{ momopay_report.date_creation }}</td>
+                            <td>{{ momopay_report.heure_creation }}</td>
+                            <td>{{ momopay_report.nom_merchant }}</td>
+                            <td>{{ momopay_report.nom_etablissement }}</td>
+                            <td>{{ momopay_report.localisation_merchant }}</td>
+                            <td>{{ momopay_report.reference_adresse }}</td>
+                            <td>{{ momopay_report.secteur_activite }}</td>
+                            <td>{{ momopay_report.numero_merchant }}</td>
+                            <td>{{ momopay_report.identifiant_merchant }}</td>
+                            <td>{{ momopay_report.montant_transaction }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun rapport Momopay trouvé.</p>
+        {% endif %}
+
+        </div>
+    </div>
+</body>
+</html>

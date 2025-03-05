@@ -11,24 +11,15 @@ body {
     min-height: 100vh;
 }
 
+/* Conteneur principal */
 .container {
-    max-width: 500px; /* Largeur maximale */
-    width: 90%; /* Prend 90% de l'écran */
-    min-width: 300px; /* Évite que ça devienne trop petit */
+    width: 500px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    margin: 20px auto; /* Centre horizontalement */
+    margin: 20px;
 }
-
-/* Ajustement spécifique pour les petits écrans */
-@media (max-width: 480px) {
-    .container {
-        padding: 20px; /* Réduit l’espace interne */
-    }
-}
-
 
 /* Titre */
 h1 {
@@ -83,33 +74,12 @@ input:focus, textarea:focus {
     font-size: 14px;
 }
 
+/* Section du bouton de soumission */
 .buttons {
     display: flex;
-    flex-wrap: wrap; /* Permet aux boutons de passer à la ligne si besoin */
-    justify-content: center; /* Centre les boutons si nécessaire */
-    gap: 10px; /* Espacement entre les boutons */
+    justify-content: space-between;
+    gap: 10px; 
 }
-
-.buttons a,
-.buttons button {
-    flex: 1; /* Permet aux boutons de s'ajuster dynamiquement */
-    min-width: 120px; /* Taille minimale pour éviter qu'ils deviennent trop petits */
-    max-width: 200px; /* Taille maximale pour éviter qu'ils soient trop larges */
-    text-align: center; /* Centre le texte */
-}
-
-/* Adaptation aux petits écrans */
-@media (max-width: 480px) {
-    .buttons {
-        flex-direction: column; /* Empile les boutons verticalement */
-    }
-
-    .buttons a,
-    .buttons button {
-        width: 100%; /* Les boutons prennent toute la largeur */
-    }
-}
-
 
 button, .btn-deconnexion, .btn-detail, .btn-detaille  {
     padding: 10px 20px; 
@@ -305,18 +275,4 @@ fieldset label, fieldset input, fieldset select {
     font-size: 18px;
     font-weight: bold;
     text-align: center;
-}
-
-@media (max-width: 480px) {
-    .buttons {
-        flex-direction: column; /* Empile les boutons verticalement */
-        align-items: center; /* Centre les boutons */
-    }
-
-    .buttons button,
-    .buttons .btn-deconnexion,
-    .buttons .btn-detail,
-    .buttons .btn-detaille {
-        width: 100%; /* Les boutons prennent toute la largeur */
-    }
 }

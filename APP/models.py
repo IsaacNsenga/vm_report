@@ -1,4 +1,4 @@
-from django.utils import timezone
+#from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -37,6 +37,26 @@ class FormDataSupervisor(models.Model):
     concurrentielle = models.TextField(blank=True, null=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.date_created.strftime('%Y-%m-%d %H:%M:%S')}"
+
+class MoMoPayMassMarket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  
+    full_name = models.CharField(max_length=300)  
+    date_enregistrement = models.DateField(null=True, blank=True)
+    date_creation = models.DateField() 
+    heure_creation = models.TimeField()  
+    nom_merchant = models.CharField(max_length=255)  
+    nom_etablissement = models.CharField(max_length=255)  
+    localisation_merchant = models.CharField(max_length=255)  
+    reference_adresse = models.TextField(blank=True, null=True)  
+    secteur_activite = models.CharField(max_length=100)  
+    numero_merchant = models.CharField(max_length=50, unique=True)  
+    identifiant_merchant = models.CharField(max_length=50, unique=True)  
+    montant_transaction = models.DecimalField(max_digits=15, decimal_places=2)  
+
+    date_created = models.DateTimeField(auto_now_add=True) 
 
     def __str__(self):
         return f"{self.full_name} - {self.date_created.strftime('%Y-%m-%d %H:%M:%S')}"

@@ -82,3 +82,13 @@ ul {
     list-style: none;
     color: red;
 }
+
+.success {
+    background-color: #28a745; /* Vert */
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+}

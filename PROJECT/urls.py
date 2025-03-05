@@ -5,8 +5,11 @@ from APP import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.connexion, name='connexion'),
-    path('inscription/', views.inscription, name='inscription'),
-    path('acceuil/', views.acceuil, name='acceuil'),
+    path('passwordreset/', views.passwordreset, name='passwordreset'),
+    path('home/', views.home, name='home'),
+    path('gsm/', views.gsm, name='gsm'),
+    path('momopay/', views.momopay, name='momopay'),
     path('deconnexion/', views.deconnexion, name='deconnexion'),
-    path('rapport/', views.rapport, name='rapport'),
+    path('rapport_gsm/', views.rapport_gsm, name='rapport_gsm'),
+    path('rapport_momopay/', views.rapport_momopay, name='rapport_momopay'),
 ]
