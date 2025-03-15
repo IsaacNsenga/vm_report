@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import FormDataSupervisor, MoMoPayMassMarket
 from django.contrib.auth.models import User
+import openpyxl
+from django.http import HttpResponse
 
 def connexion(request):
     if request.method == 'POST':
@@ -178,9 +180,116 @@ def rapport_gsm(request):
 
 @login_required
 def rapport_momopay(request):
-    if request.user.has_perm('APP.view_all_momopay_reports'):
+    if request.user.has_perm('APP.can_view_all_momopay'):
         momopay_reports = MoMoPayMassMarket.objects.all()  # Responsable MoMoPay et DG voient tout
     else:
         momopay_reports = MoMoPayMassMarket.objects.filter(user=request.user)  # Utilisateur normal voit ses propres rapports
 
     return render(request, 'momopay_rapport.html', {'momopay_reports': momopay_reports})
+
+@login_required
+def download_momopay_report(request):
+    # Récupère les données à partir du modèle
+    if request.user.has_perm('APP.view_all_momopay_reports'):
+        momopay_reports = MoMoPayMassMarket.objects.all()  # Responsable MoMoPay et DG voient tout
+    else:
+        momopay_reports = MoMoPayMassMarket.objects.filter(user=request.user)  # Utilisateur normal voit ses propres rapports
+
+    # Créer un nouveau classeur Excel
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Rapport Momopay"
+
+    # Ajouter l'entête du tableau
+    header = [
+        "Utilisateur", "Nom Complet", "Date Enregistrement", "Date Création", "Heure Création", 
+        "Nom du Marchand", "Nom de l'Établissement", "Localisation du Marchand", "Référence Adresse", 
+        "Secteur d'Activité", "Numéro du Marchand", "Identifiant du Marchand", "Montant de la Transaction"
+    ]
+    ws.append(header)
+
+    # Ajouter les données des rapports
+    for report in momopay_reports:
+        row = [
+            report.user.username,
+            report.full_name,
+            report.date_enregistrement,
+            report.date_creation,
+            report.heure_creation,
+            report.nom_merchant,
+            report.nom_etablissement,
+            report.localisation_merchant,
+            report.reference_adresse,
+            report.secteur_activite,
+            report.numero_merchant,
+            report.identifiant_merchant,
+            report.montant_transaction
+        ]
+        ws.append(row)
+
+    # Créer une réponse HTTP avec un fichier Excel
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=rapport_momopay.xlsx'
+
+    # Sauvegarder le fichier Excel dans la réponse
+    wb.save(response)
+    return response
+
+@login_required
+def download_gsm_report(request):
+    # Récupère les données à partir du modèle
+    if request.user.has_perm('APP.view_all_gsm_reports'):
+        gsm_reports = FormDataSupervisor.objects.all()  # Responsable GSM et DG voient tout
+    else:
+        gsm_reports = FormDataSupervisor.objects.filter(user=request.user)  # Utilisateur normal voit ses propres rapports
+
+    # Créer un nouveau classeur Excel
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Rapport GSM"
+
+    # Ajouter l'entête du tableau
+    header = [
+        "Utilisateur", "Nom Complet", "Date Enregistrement", "Lieu Activité", "Stock SIM Actives", 
+        "Stock SIM Blanches", "SIM Appro", "Effectif Total", "Effectif Présent", "GSM", "Momo App",
+        "MyMTN", "Ayoba", "Téléphone", "Modem", "MIFI", "WiFix", "Difficultés", "Momo Conversion", 
+        "Reset PIN", "Prospection", "Besoin", "Concurrentielle"
+    ]
+    ws.append(header)
+
+    # Ajouter les données des rapports
+    for report in gsm_reports:
+        row = [
+            report.user.username,
+            report.full_name,
+            report.date_enregistrement,
+            report.lieu_activite,
+            report.stock_sim_activees,
+            report.stock_sim_blanches,
+            report.sim_appro,
+            report.effectif_total,
+            report.effectif_present,
+            report.gsm,
+            report.momo_app,
+            report.mymtn,
+            report.ayoba,
+            report.telephone,
+            report.modem,
+            report.mifi,
+            report.wifix,
+            report.difficultes,
+            report.momoconvertion,
+            report.resetpin,
+            report.prospection,
+            report.besoin,
+            report.concurrentielle
+        ]
+        ws.append(row)
+
+    # Créer une réponse HTTP avec un fichier Excel
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=rapport_gsm.xlsx'
+
+    # Sauvegarder le fichier Excel dans la réponse
+    wb.save(response)
+    return response

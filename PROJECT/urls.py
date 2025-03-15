@@ -12,4 +12,6 @@ urlpatterns = [
     path('deconnexion/', views.deconnexion, name='deconnexion'),
     path('rapport_gsm/', views.rapport_gsm, name='rapport_gsm'),
     path('rapport_momopay/', views.rapport_momopay, name='rapport_momopay'),
+    path('download_momopay_report/', views.download_momopay_report, name='download_momopay_report'),
+    path('download_gsm_report/', views.download_gsm_report, name='download_gsm_report'),
 ]
